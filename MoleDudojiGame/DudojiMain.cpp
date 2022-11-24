@@ -8,24 +8,40 @@
 using namespace sf;
 using namespace std;
 
+struct Position
+{
+    int x;
+    int y;
+};
+
 int main(void) {
-    int x = 0, y = 0;
+
 
 	RenderWindow app(VideoMode(WIDTH, HEIGHT), "Catch Dudoji");
     app.setFramerateLimit(60);
     
-    Texture background, hammer;
-    background.loadFromFile("images/background.png");
-    hammer.loadFromFile("images/뿅망치.png");
-    /*t1.loadFromFile("images/두더지1.png");
-    t1.loadFromFile("images/두더지2.png");
-    t1.loadFromFile("images/두더지3.png");
-    t1.loadFromFile("images/두더지4.png");
-    t1.loadFromFile("images/두더지5.png");
-    t1.loadFromFile("images/두더지6.png");*/
+    Texture t1, t2, t3, t4, t5, t6, t7, t8;
+    t1.loadFromFile("images/background.png");
+    t2.loadFromFile("images/hammer.png");
+    t3.loadFromFile("images/hammer_pressed.png");
+    /*t4.loadFromFile("images/두더지1.png");
+    t5.loadFromFile("images/두더지2.png");
+    t6.loadFromFile("images/두더지3.png");
+    t7.loadFromFile("images/두더지4.png");
+    t8.loadFromFile("images/두더지5.png");
+    t9.loadFromFile("images/두더지6.png");*/
 
-    Sprite s1;
-    s1.setTexture(background);
+    Sprite background(t1);
+
+    Sprite hammer(t2);
+
+    Sprite Dudoji[6];
+
+
+
+    Position hammerPos;
+    hammerPos.x = 0;
+    hammerPos.y = 0;
 
     //x누르면 종료되는 코드
     //SFML 메인 루프 - 윈도우가 닫힐때 까지 반복
@@ -40,28 +56,43 @@ int main(void) {
                 app.close();
                 cout << "프로그램이 종료되었습니다." << endl;
             }
+            //마우스가 눌렸을 때
             switch (event.type) {
-            case Event::MouseButtonPressed:
+                case Event::MouseButtonPressed:
+                case Mouse::Left:
+                {
+                    Sprite hammer(t3);
+                    printf("마우스");
+                    break;
+                }
+            }
+            //마우스가 떼졌을 때MouseButtonReleased
+            switch (event.type) {
+            case Event::MouseButtonReleased:
             case Mouse::Left:
             {
-
+                Sprite hammer(t2);
+                break;
             }
             }
 
+            //마우스가 움직일 때
             switch (event.type)
             {
             case Event:: MouseMoved:
             {
                 Vector2i pos = Mouse::getPosition(app);
                 cout << "이동 : pos.x = " << pos.x << " pos.y = " << pos.y << endl;
-                x = pos.x;
-                y = pos.y;
+                hammerPos.x = pos.x;
+                hammerPos.y = pos.y;
                 break;
                 }
             }
+            hammer.setPosition(hammerPos.x, hammerPos.y);
         }
         app.clear();
-        app.draw(s1);
+        app.draw(background);
+        app.draw(hammer);
 
         //프레임을 스크린에 출력
         app.display();
