@@ -33,11 +33,13 @@ int main(void) {
 
     Sprite background(t1);
 
-    Sprite hammer(t2);
+    Sprite hammer[2];
+    hammer[0] = Sprite(t2);
+    hammer[1] = Sprite(t3);
 
     Sprite Dudoji[6];
 
-
+    Sprite s(t2);
 
     Position hammerPos;
     hammerPos.x = 0;
@@ -61,7 +63,7 @@ int main(void) {
                 case Event::MouseButtonPressed:
                 case Mouse::Left:
                 {
-                    Sprite hammer(t3);
+                    s = hammer[1];
                     printf("마우스");
                     break;
                 }
@@ -71,7 +73,7 @@ int main(void) {
             case Event::MouseButtonReleased:
             case Mouse::Left:
             {
-                Sprite hammer(t2);
+                s = hammer[0];
                 break;
             }
             }
@@ -88,11 +90,11 @@ int main(void) {
                 break;
                 }
             }
-            hammer.setPosition(hammerPos.x, hammerPos.y);
+            s.setPosition(hammerPos.x-70, hammerPos.y-77);
         }
         app.clear();
         app.draw(background);
-        app.draw(hammer);
+        app.draw(s);
 
         //프레임을 스크린에 출력
         app.display();
