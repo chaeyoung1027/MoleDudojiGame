@@ -1,8 +1,15 @@
-//(¹®Á¦ ¸ÂÃß±â) µÎ´õÁö °ÔÀÓ
 #include<SFML/Graphics.hpp>
 #include<iostream>
+#include<SFML/Audio.hpp>
+//forï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î´ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+//Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½î¶»ï¿½ï¿½ ï¿½Ï´ï¿½ï¿½ï¿½ ->setScaled
+//ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½È´Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½Ç¥ ï¿½Ë¾Æ³ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½È¿ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ï¾î³ªï¿½ï¿½ 
+//È¿ï¿½ï¿½ ï¿½Ö±ï¿½ -> ï¿½Ò¸ï¿½ ï¿½Ö±ï¿½, ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½Ö±ï¿½
+//ï¿½ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½, Å¸ï¿½Ì¸ï¿½ ï¿½Ö±ï¿½
+//ï¿½Î´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½×¸ï¿½ ï¿½Ö±ï¿½
+//ë‘ë”ì§€ ì• ë‹ˆë©”ì´ì…˜, ë§ëŠ”íš¨ê³¼, ì‹œê°„,  íš¨ê³¼ìŒ
 
-#define WIDTH 1100
+#define WIDTH 1152
 #define HEIGHT 942
 
 using namespace sf;
@@ -14,61 +21,96 @@ struct Position
     int y;
 };
 
+void hit_sound_detail(const std::string& hitSound) {
+    SoundBuffer buffer;
+    //ì˜¤ë””ì˜¤ íŒŒì¼ ì½ê¸°
+    if (!buffer.loadFromFile(hitSound))
+    {
+        cout << "loadFromFileì—ëŸ¬" << endl;
+        return;
+    }
+}
+//ì˜¤ë””ì˜¤ ì¬ìƒ
+//Sound sound(buffer);
+//sound.play();
+
 int main(void) {
 
 
 	RenderWindow app(VideoMode(WIDTH, HEIGHT), "Catch Dudoji");
     app.setFramerateLimit(60);
     
-    Texture t1, t2, t3, t4, t5, t6, t7, t8;
-    t1.loadFromFile("images/background.png");
-    t2.loadFromFile("images/hammer.png");
-    t3.loadFromFile("images/hammer_pressed.png");
-    /*t4.loadFromFile("images/µÎ´õÁö1.png");
-    t5.loadFromFile("images/µÎ´õÁö2.png");
-    t6.loadFromFile("images/µÎ´õÁö3.png");
-    t7.loadFromFile("images/µÎ´õÁö4.png");
-    t8.loadFromFile("images/µÎ´õÁö5.png");
-    t9.loadFromFile("images/µÎ´õÁö6.png");*/
+    Texture b1;
+    b1.loadFromFile("images/background.png");
+    
+    Texture h1, h2;
+    h1.loadFromFile("images/hammer.png");
+    h2.loadFromFile("images/hammer_pressed.png");
 
-    Sprite background(t1);
+    //ë‘ë”ì§€ ë§ê¸° ì „
+    Texture d1, d2, d3, d4, d5, d6;
+    d1.loadFromFile("images/dudoji_img1.png");
+    d2.loadFromFile("images/dudoji_img2.png");
+    d3.loadFromFile("images/dudoji_img3.png");
+    d4.loadFromFile("images/dudoji_img4.png");
+    d5.loadFromFile("images/dudoji_img5.png");
+    d6.loadFromFile("images/dudoji_img6.png");
+
+    //ë‘ë”ì§€ ë§ì€ í›„
+    Texture dh1, dh2, dh3, dh4, dh5, dh6;
+    dh1.loadFromFile("images/dudojihit_img1.png");
+    dh2.loadFromFile("images/dudojihit_img2.png");
+    dh3.loadFromFile("images/dudojihit_img3.png");
+    dh4.loadFromFile("images/dudojihit_img4.png");
+    dh5.loadFromFile("images/dudojihit_img5.png");
+    dh6.loadFromFile("images/dudojihit_img6.png");
+
+    Sprite background(b1);      //ë°°ê²½
+    background.setScale(1.2f, 1.2f);
 
     Sprite hammer[2];
-    hammer[0] = Sprite(t2);
-    hammer[1] = Sprite(t3);
+    hammer[0] = Sprite(h1);     //ë§ì¹˜
+    hammer[1] = Sprite(h2);     //ë•Œë¦¬ëŠ” ë§ì¹˜
+
+    Sprite dudoji(d1);
+    dudoji.setPosition(305.0f, 240.0f);//ë‘ë”ì§€ ìœ„ì¹˜ ì¡ê¸°
+    dudoji.setScale(0.26f, 0.26f);        //ë‘ë”ì§€ í¬ê¸°
 
     Sprite Dudoji[6];
-
-    Sprite s(t2);
+    Dudoji[0] = Sprite(d1);
+    Dudoji[1] = Sprite(d2);
+    Dudoji[2] = Sprite(d3);
+    Dudoji[3] = Sprite(d4);
+    Dudoji[4] = Sprite(d5);
+    Dudoji[4] = Sprite(d6);
+    Sprite s(h1);
 
     Position hammerPos;
     hammerPos.x = 0;
     hammerPos.y = 0;
 
-    //x´©¸£¸é Á¾·áµÇ´Â ÄÚµå
-    //SFML ¸ŞÀÎ ·çÇÁ - À©µµ¿ì°¡ ´İÈú¶§ ±îÁö ¹İº¹
+    //xëˆ„ë¥´ë©´ ì¢…ë£Œë˜ëŠ” ì½”ë“œ
+    //SFML ë©”ì¸ ë£¨í”„ - ìœˆë„ìš°ê°€ ë‹«íë•Œ ê¹Œì§€ ë°˜ë³µ
     while (app.isOpen())
     {
-        // ·çÇÁ°¡ ¹İº¹µÇ´Â µ¿¾È Æ®¸®°Å°¡ °É¸° À©µµ¿ìÀÇ ÀÌº¥Æ® Ã¼Å©
+        // ë£¨í”„ê°€ ë°˜ë³µë˜ëŠ” ë™ì•ˆ íŠ¸ë¦¬ê±°ê°€ ê±¸ë¦° ìœˆë„ìš°ì˜ ì´ë²¤íŠ¸ ì²´í¬
         Event event;
         while (app.pollEvent(event))
         {
-            //"close ¿äÃ»" ÀÌº¥Æ®. À©µµ¿ì¸¦ Á¾·á.
+            //"close ìš”ì²­" ì´ë²¤íŠ¸. ìœˆë„ìš°ë¥¼ ì¢…ë£Œ.
             if (event.type == Event::Closed) {
                 app.close();
-                cout << "ÇÁ·Î±×·¥ÀÌ Á¾·áµÇ¾ú½À´Ï´Ù." << endl;
             }
-            //¸¶¿ì½º°¡ ´­·ÈÀ» ¶§
+            //ë§ˆìš°ìŠ¤ê°€ ëˆŒë ¸ì„ ë•Œ
             switch (event.type) {
                 case Event::MouseButtonPressed:
                 case Mouse::Left:
                 {
                     s = hammer[1];
-                    printf("¸¶¿ì½º");
                     break;
                 }
             }
-            //¸¶¿ì½º°¡ ¶¼Á³À» ¶§MouseButtonReleased
+            //ë§ˆìš°ìŠ¤ê°€ ë–¼ì¡Œì„ ë•ŒMouseButtonReleased
             switch (event.type) {
             case Event::MouseButtonReleased:
             case Mouse::Left:
@@ -78,25 +120,27 @@ int main(void) {
             }
             }
 
-            //¸¶¿ì½º°¡ ¿òÁ÷ÀÏ ¶§
+            //ë§ˆìš°ìŠ¤ê°€ ì›€ì§ì¼ ë•Œ
             switch (event.type)
             {
             case Event:: MouseMoved:
             {
                 Vector2i pos = Mouse::getPosition(app);
-                cout << "ÀÌµ¿ : pos.x = " << pos.x << " pos.y = " << pos.y << endl;
                 hammerPos.x = pos.x;
                 hammerPos.y = pos.y;
+
+                printf("xì¢Œí‘œ : %d, yì¢Œí‘œ : %d\n", pos.x ,pos.y);
                 break;
                 }
             }
-            s.setPosition(hammerPos.x-70, hammerPos.y-77);
+            s.setPosition(hammerPos.x-70.0, hammerPos.y-77.0);
         }
         app.clear();
         app.draw(background);
+        app.draw(dudoji);
         app.draw(s);
 
-        //ÇÁ·¹ÀÓÀ» ½ºÅ©¸°¿¡ Ãâ·Â
+        //í”„ë ˆì„ì„ ìŠ¤í¬ë¦°ì— ì¶œë ¥
         app.display();
     }
 

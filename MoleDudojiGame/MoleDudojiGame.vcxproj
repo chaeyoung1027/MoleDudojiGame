@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="DudojiMain.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\..\Downloads\hitSound.wav" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
