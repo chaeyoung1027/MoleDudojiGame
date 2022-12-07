@@ -21,7 +21,8 @@ struct Position
     int y;
 };
 
-void hit_sound_detail(const std::string& hitSound) {
+void hit_sound_detail(const std::
+    string& hitSound) {
     SoundBuffer buffer;
     //오디오 파일 읽기
     if (!buffer.loadFromFile(hitSound))
@@ -65,7 +66,8 @@ int main(void) {
     dh5.loadFromFile("images/dudojihit_img5.png");
     dh6.loadFromFile("images/dudojihit_img6.png");
 
-    Sprite background(b1);      //배경
+    //배경
+    Sprite background(b1);      
     background.setScale(1.2f, 1.2f);
 
     Sprite hammer[2];
@@ -88,6 +90,9 @@ int main(void) {
     Position hammerPos;
     hammerPos.x = 0;
     hammerPos.y = 0;
+
+    //두더지 위치 좌표
+    int position[3][2] = { 300, 540 , 790, 230 , 470, 680 };
 
     //x누르면 종료되는 코드
     //SFML 메인 루프 - 윈도우가 닫힐때 까지 반복
