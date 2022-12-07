@@ -74,10 +74,7 @@ int main(void) {
     hammer[0] = Sprite(h1);     //망치
     hammer[1] = Sprite(h2);     //때리는 망치
 
-    Sprite dudoji(d1);
-    dudoji.setPosition(305.0f, 240.0f);//두더지 위치 잡기
-    dudoji.setScale(0.26f, 0.26f);        //두더지 크기
-
+    //변하는 모습
     Sprite Dudoji[6];
     Dudoji[0] = Sprite(d1);
     Dudoji[1] = Sprite(d2);
@@ -85,6 +82,23 @@ int main(void) {
     Dudoji[3] = Sprite(d4);
     Dudoji[4] = Sprite(d5);
     Dudoji[4] = Sprite(d6);
+
+    //두더지 각 위치
+    Sprite dudoji[9];
+    dudoji[0] = Sprite(d1);
+    dudoji[1] = Sprite(d1);
+    dudoji[2] = Sprite(d1);
+    dudoji[3] = Sprite(d1);
+    dudoji[4] = Sprite(d1);
+    dudoji[5] = Sprite(d1);
+    dudoji[6] = Sprite(d1);
+    dudoji[7] = Sprite(d1);
+    dudoji[8] = Sprite(d1);
+    /*
+    Sprite dudoji(d1);
+    dudoji.setPosition(305.0f, 240.0f);//두더지 위치 잡기
+    dudoji.setScale(0.26f, 0.26f);        //두더지 크기*/
+
     Sprite s(h1);
 
     Position hammerPos;
@@ -92,7 +106,19 @@ int main(void) {
     hammerPos.y = 0;
 
     //두더지 위치 좌표
-    int position[3][2] = { 300, 540 , 790, 230 , 470, 680 };
+    int position[2][3] = { 240.0f, 490.0f, 740.0f, 210.0f, 440.0f, 640.0f };
+    int a = 0;
+
+    //두더지 위치 설정 for문
+    for (int i = 0; i < 9; i++) {
+        dudoji[i].setScale(0.3f, 0.3f);
+    }
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            dudoji[a].setPosition(position[0][i], position[1][j]);
+            a++;
+        }
+    }
 
     //x누르면 종료되는 코드
     //SFML 메인 루프 - 윈도우가 닫힐때 까지 반복
@@ -142,7 +168,10 @@ int main(void) {
         }
         app.clear();
         app.draw(background);
-        app.draw(dudoji);
+        for (int i = 0; i < 9; i++) {
+            app.draw(dudoji[i]);
+        }
+        app.draw(dudoji[0]);
         app.draw(s);
 
         //프레임을 스크린에 출력
