@@ -1,6 +1,7 @@
 #include<SFML/Graphics.hpp>
 #include<iostream>
 #include<SFML/Audio.hpp>
+#include <stdlib.h> 
 //for������ �δ��� �̹��� ����
 //ũ�� ������ ��� �ϴ��� ->setScaled
 //��ġ�� ������ �̹����� ������ �ȴٰ� ���� -> ��ǥ �˾Ƴ��� �� �ȿ��� Ŭ���� �Ͼ�� 
@@ -99,11 +100,19 @@ int main(void) {
     dudoji.setPosition(305.0f, 240.0f);//두더지 위치 잡기
     dudoji.setScale(0.26f, 0.26f);        //두더지 크기*/
 
+    //망치
     Sprite s(h1);
 
+    //망치 위치
     Position hammerPos;
     hammerPos.x = 0;
     hammerPos.y = 0;
+
+    //두더지 유무 랜덤
+    int dudoji_ox[9] = { 0, };
+    for (int i = 0; i < 9; i++) {
+        dudoji_ox[i] = rand() % 2;
+    }
 
     //두더지 위치 좌표
     int position[2][3] = { 240.0f, 490.0f, 740.0f, 210.0f, 440.0f, 640.0f };
@@ -159,8 +168,6 @@ int main(void) {
                 Vector2i pos = Mouse::getPosition(app);
                 hammerPos.x = pos.x;
                 hammerPos.y = pos.y;
-
-                printf("x좌표 : %d, y좌표 : %d\n", pos.x ,pos.y);
                 break;
                 }
             }
@@ -168,8 +175,12 @@ int main(void) {
         }
         app.clear();
         app.draw(background);
+
+        //만약 ox(유무)가 1이면 출력
         for (int i = 0; i < 9; i++) {
-            app.draw(dudoji[i]);
+            if (dudoji_ox[i] == 1) {
+                app.draw(dudoji[i]);
+            }
         }
         app.draw(dudoji[0]);
         app.draw(s);
