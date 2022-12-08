@@ -2,12 +2,6 @@
 #include<iostream>
 #include<SFML/Audio.hpp>
 #include <stdlib.h> 
-//for������ �δ��� �̹��� ����
-//ũ�� ������ ��� �ϴ��� ->setScaled
-//��ġ�� ������ �̹����� ������ �ȴٰ� ���� -> ��ǥ �˾Ƴ��� �� �ȿ��� Ŭ���� �Ͼ�� 
-//ȿ�� �ֱ� -> �Ҹ� �ֱ�, �ִϸ��̼� �ֱ�
-//���� �ֱ�, Ÿ�̸� �ֱ�
-//�δ����� �´� �׸� �ֱ�
 //두더지 애니메이션, 맞는효과, 시간,  효과음
 
 #define WIDTH 1152
@@ -22,8 +16,7 @@ struct Position
     int y;
 };
 
-void hit_sound_detail(const std::
-    string& hitSound) {
+void hit_sound_detail(const std::string& hitSound) {
     SoundBuffer buffer;
     //오디오 파일 읽기
     if (!buffer.loadFromFile(hitSound))
@@ -84,7 +77,7 @@ int main(void) {
     Dudoji[4] = Sprite(d5);
     Dudoji[4] = Sprite(d6);
 
-    //두더지 각 위치
+    //두더지
     Sprite dudoji[9];
     dudoji[0] = Sprite(d1);
     dudoji[1] = Sprite(d1);
@@ -95,10 +88,6 @@ int main(void) {
     dudoji[6] = Sprite(d1);
     dudoji[7] = Sprite(d1);
     dudoji[8] = Sprite(d1);
-    /*
-    Sprite dudoji(d1);
-    dudoji.setPosition(305.0f, 240.0f);//두더지 위치 잡기
-    dudoji.setScale(0.26f, 0.26f);        //두더지 크기*/
 
     //망치
     Sprite s(h1);
@@ -135,6 +124,7 @@ int main(void) {
     //SFML 메인 루프 - 윈도우가 닫힐때 까지 반복
     while (app.isOpen())
     {
+        
         // 루프가 반복되는 동안 트리거가 걸린 윈도우의 이벤트 체크
         Event event;
         while (app.pollEvent(event))
@@ -148,7 +138,9 @@ int main(void) {
                 case Event::MouseButtonPressed:
                 case Mouse::Left:
                 {
+                    Vector2i pos = Mouse::getPosition(app);
                     s = hammer[1];
+                    if (pos.x > 240.0f && pos.x < 456.0f && pos.y>210.0f && pos.y < 426.0f) dudoji_ox[0] = 0;
                     break;
                 }
             }
@@ -184,12 +176,11 @@ int main(void) {
                 app.draw(dudoji[i]);
             }
         }
-        app.draw(dudoji[0]);
+
         app.draw(s);
 
         //프레임을 스크린에 출력
         app.display();
     }
-
     return 0;
 }
