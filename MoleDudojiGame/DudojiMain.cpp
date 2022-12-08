@@ -108,10 +108,12 @@ int main(void) {
     hammerPos.x = 0;
     hammerPos.y = 0;
 
+    srand(time(NULL));
+
     //두더지 유무 랜덤
     int dudoji_ox[9] = { 0, };
     for (int i = 0; i < 9; i++) {
-        dudoji_ox[i] = rand() % 2;
+        dudoji_ox[i] = rand() % 3;
     }
 
     //두더지 위치 좌표
