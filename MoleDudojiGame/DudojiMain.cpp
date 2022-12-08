@@ -99,14 +99,11 @@ int main(void) {
 
     srand(time(NULL));
 
-    //두더지 유무 랜덤
-    int dudoji_ox[9] = { 0, };
-    for (int i = 0; i < 9; i++) {
-        dudoji_ox[i] = rand() % 3;
-    }
+    //두더지 유무 배열
+    int dudoji_ox[9] = { 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
     //두더지 위치 좌표
-    int position[2][3] = { 240.0f, 490.0f, 740.0f, 210.0f, 440.0f, 640.0f };
+    float position[2][3] = { 240.0f, 490.0f, 740.0f, 210.0f, 440.0f, 640.0f };
     int a = 0;
 
     //두더지 위치 설정 for문
@@ -119,6 +116,31 @@ int main(void) {
             a++;
         }
     }
+
+    /*//타이머
+    clock_t start = clock();
+    clock_t end = clock();
+    int second = 1; //1초마다 반복하기 위한 변수
+    int endsecond = 100;    //100초동안 게임
+    while (double(end - start) / CLOCKS_PER_SEC == endsecond) {
+        printf("%d", double(end - start) / CLOCKS_PER_SEC == endsecond);
+        end = clock();
+
+        if (double(end - start) / CLOCKS_PER_SEC == second) {
+            //두더지 유무 랜덤
+            for (int i = 0; i < 9; i++) {
+                if (dudoji_ox[i] == 0) {
+                    dudoji_ox[i] = rand() % 3;
+                }
+            }
+            //만약 ox(유무)가 1이면 출력
+            for (int i = 0; i < 9; i++) {
+                if (dudoji_ox[i] == 1) {
+                    app.draw(dudoji[i]);
+                }
+            }
+        }
+    }*/
 
     //x누르면 종료되는 코드
     //SFML 메인 루프 - 윈도우가 닫힐때 까지 반복
@@ -140,7 +162,18 @@ int main(void) {
                 {
                     Vector2i pos = Mouse::getPosition(app);
                     s = hammer[1];
-                    if (pos.x > 240.0f && pos.x < 456.0f && pos.y>210.0f && pos.y < 426.0f) dudoji_ox[0] = 0;
+                    //눌렀을 때 두더지가 사라지는 영역 설정
+                    if (pos.x > 240.0f && pos.x < 450.0f && pos.y>210.0f && pos.y < 420.0f) dudoji_ox[0] = 0;
+                    if (pos.x > 470.0f && pos.x < 680.0f && pos.y>210.0f && pos.y < 420.0f) dudoji_ox[3] = 0;
+                    if (pos.x > 700.0f && pos.x < 910.0f && pos.y>210.0f && pos.y < 420.0f) dudoji_ox[6] = 0;
+
+                    if (pos.x > 240.0f && pos.x < 450.0f && pos.y>440.0f && pos.y < 630.0f) dudoji_ox[1] = 0;
+                    if (pos.x > 470.0f && pos.x < 680.0f && pos.y>440.0f && pos.y < 630.0f) dudoji_ox[4] = 0;
+                    if (pos.x > 700.0f && pos.x < 910.0f && pos.y>440.0f && pos.y < 630.0f) dudoji_ox[7] = 0;
+
+                    if (pos.x > 260.0f && pos.x < 470.0f && pos.y>640.0f && pos.y < 850.0f) dudoji_ox[2] = 0;
+                    if (pos.x > 490.0f && pos.x < 600.0f && pos.y>640.0f && pos.y < 850.0f) dudoji_ox[5] = 0;
+                    if (pos.x > 740.0f && pos.x < 950.0f && pos.y>640.0f && pos.y < 850.0f) dudoji_ox[8] = 0;
                     break;
                 }
             }
@@ -167,16 +200,9 @@ int main(void) {
             }
             s.setPosition(hammerPos.x-70.0, hammerPos.y-77.0);
         }
+
         app.clear();
         app.draw(background);
-
-        //만약 ox(유무)가 1이면 출력
-        for (int i = 0; i < 9; i++) {
-            if (dudoji_ox[i] == 1) {
-                app.draw(dudoji[i]);
-            }
-        }
-
         app.draw(s);
 
         //프레임을 스크린에 출력
